@@ -28,10 +28,26 @@
     public function create(){}
     public function update(){}
     public function getById(){}
-    public function bringAll(){}
+    
+    public function bringAll() : array {
+      $db = Database::getConection();
+      $sql_bring = "SELEC * FROM produtos";
+
+      try{
+        $stmt_bring = $db->prepare($sql_bring);
+        $stmt_bring->execute();
+        $stmt_bring->setFetchMode( PDO::FETCH_CLASS, 'Produto' );
+        
+        $produtos = $stmt_bring->fetchAll();
+        return $produtos;
+
+      }catch(PDOException $e){
+        return [];
+      }
+    }
 
     // METHODS - ACTIVITE
-    public function totalCalculate() : bool {}
+    public function totalCalculate(){}
 
     public function remove_qtd($qtd){
       $this->qtd -= $qtd;

@@ -6,10 +6,10 @@
     private static $user = 'root';
     private static $passwrod = 'aluno';
 
-    public function getConection(){
+    public static function getConection(){
       try{
         
-        $conect = new PDO( "mysql:host=" . $this->host . "; dbname=" . $this->database, $this->user, $this->passwrod );
+        $conect = new PDO( "mysql:host=" . self::$host . "; dbname=" . self::$database, self::$user, self::$passwrod );
         $conect -> setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
         return $conect;
 
