@@ -10,7 +10,8 @@
     private $qtd; // Quantidade;
 
     public function __construct(){
-      $this->db = Database::getConection();
+      $database = new Database();
+      $this->db = $database->getConection();
     }
 
     // GETTERS
@@ -31,7 +32,6 @@
     public function bringAll(){}
 
     // METHODS - ACTIVITE
-    public function totalCalculate() : bool {}
 
     public function remove_qtd($qtd){
       $this->qtd -= $qtd;
