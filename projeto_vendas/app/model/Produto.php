@@ -1,10 +1,17 @@
 <?php
+  require_once DATABASE_PATH;
+
   class Produto{
     // PARAMS
     private $id;
     private $name;
     private $value;
+    private $db;
     private $qtd; // Quantidade;
+
+    public function __construct(){
+      $this->db = Database::getConection();
+    }
 
     // GETTERS
     public function getId(){ return $this->id; }
@@ -24,6 +31,16 @@
     public function bringAll(){}
 
     // METHODS - ACTIVITE
-    public function totalCalculate(){}
+    public function totalCalculate() : bool {}
+
+    public function remove_qtd($qtd){
+      $this->qtd -= $qtd;
+      $sql_remove = ""; // QUERY SQL PARA ATUALIZAR
+
+      $stmt_remove = $this->db->prepare($sql_remove);
+      $stmt_remove->bindValue(':qtd', $this->qtd);
+
+      return $stmt_remove->execute();
+    }
   }
 ?>
