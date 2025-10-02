@@ -27,7 +27,40 @@
     // METHODS
     public function create(){}
     public function update(){}
-    public function getById(){}
+    
+    public function removeQTD($qtd) : bool {
+      if( $qtd > $this->qtd){
+        header('Location: '.INDEX_PATH.'?status=error');
+        exit();
+      }
+      $this->qtd -= $qtd;
+      $sql_remove = "UPDATE produtos SET prod_qtd = :qtd WHERE id = :id ";
+
+      $stmt_remove = $this->db->prepare($sql_remove);
+      $stmt_remove->bindValue(':id', $this->id);
+      $stmt_remove->bindValue(':qtd', $this->qtd);
+      
+      return $stmt_remove->execute();
+    }
+
+    public function getById($id){
+      $sql_searchId = "SELECT * FROM produtos WHERE id = :id";
+      try{
+        $stmt_searchId = $this->db->prepare($sql_searchId);
+        $stmt_searchId->bindValue(':id', $id );
+        $stmt_searchId->execute();
+
+        $stmt_searchId->setFetchMode(PDO::FETCH_CLASS, 'Produto'); 
+
+        $produto = $stmt_searchId->fetch();
+
+        return ($produto !== false) ? $produto : null;
+      
+      }catch(PDOException $e){
+        return null;
+      }
+
+    }
     
     public function bringAll() : array {
       $db = Database::getConection();
@@ -47,16 +80,5 @@
     }
 
     // METHODS - ACTIVITE
-    public function totalCalculate(){}
-
-    public function remove_qtd($qtd){
-      $this->qtd -= $qtd;
-      $sql_remove = ""; // QUERY SQL PARA ATUALIZAR
-
-      $stmt_remove = $this->db->prepare($sql_remove);
-      $stmt_remove->bindValue(':qtd', $this->qtd);
-
-      return $stmt_remove->execute();
-    }
   }
 ?>

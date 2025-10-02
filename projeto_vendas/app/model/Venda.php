@@ -6,6 +6,15 @@
     private $qtd;
     private $value;
     private $date;
+    private $db;
+
+    public function __construct(){
+      $database = new Database();
+      $this->db = $database->getConection();
+      if ($this->db === null) {
+        throw new Exception("Não foi possível conectar ao banco de dados");
+      }
+    }
 
     // GETTERS
     public function getId(){ return $this->id; }
@@ -20,9 +29,30 @@
     public function setDate( $date ){ $this->date = $date; }
 
     // METHODS
-    public function register(){}
+    public function register(){
+      $sql = "INSERT INTO vendas (prod_id, quantidade, venda_valor, venda_data) VALUES (:prod_id, :quantidade, :venda_valor, :venda_data)";
+      try{  
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':prod_id', $this->prodId);
+        $stmt->bindValue(':quantidade', $this->qtd);
+        $stmt->bindValue(':venda_valor', $this->value);
+        $stmt->bindValue(':venda_data', $this->date);
+        
+        if($stmt->execute()){
+          $this->id = $this->db->lastInsertId();
+          return true;
+        }
+      return false;
+      } catch(PDOException $e) {
+        return false;
+      }
+    }
     public function update(){}
     public function getById(){}
     public function bringAll(){}
+
+    public function totalValue($qtd, $value) : int{
+      return $total = $qtd * $value;
+    }
   }
 ?>
