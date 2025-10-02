@@ -45,6 +45,8 @@ $listaProdutos = Produto::listar(); // >>> exemplo
                     
                     Quantidade: <input type="number" name="qtd_produto">
 
+                    Total: <input type="number" step='0.01' name="total_compra"> <!-- atualizar automaticament o valor -->
+
                     <button class="btn_salvar" type="submit">Comprar</button>
                 </form>
 
