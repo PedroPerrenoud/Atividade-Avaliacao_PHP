@@ -49,7 +49,21 @@
     }
     public function update(){}
     public function getById(){}
-    public function bringAll(){}
+    public function bringAll() : array {
+      $sql_bring = "SELEC * FROM vendas";
+
+      try{
+        $stmt_bring = $this->db->prepare($sql_bring);
+        $stmt_bring->execute();
+        $stmt_bring->setFetchMode( PDO::FETCH_CLASS, 'Venda' );
+        
+        $vendas = $stmt_bring->fetchAll();
+        return $vendas;
+
+      }catch(PDOException $e){
+        return [];
+      }
+    }
 
     public function totalValue($qtd, $value) : int{
       return $total = $qtd * $value;

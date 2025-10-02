@@ -22,8 +22,9 @@
     public static function listar(){
       $produtoModel = new Produto();
       $produtos = $produtoModel->bringAll();
+      $produtoController = new ProdutoController();
 
-      render($produtos);
+      $produtoController->render($produtos);
     }
 
     public function render( array $data = []){

@@ -44,7 +44,7 @@
     }
 
     public function getById($id){
-      $sql_searchId = "SELECT * FROM produtos WHERE id = :id";
+      $sql_searchId = "SELECT * FROM produtos WHERE prod_id = :id";
       try{
         $stmt_searchId = $this->db->prepare($sql_searchId);
         $stmt_searchId->bindValue(':id', $id );
@@ -63,11 +63,10 @@
     }
     
     public function bringAll() : array {
-      $db = Database::getConection();
       $sql_bring = "SELEC * FROM produtos";
 
       try{
-        $stmt_bring = $db->prepare($sql_bring);
+        $stmt_bring = $this->db->prepare($sql_bring);
         $stmt_bring->execute();
         $stmt_bring->setFetchMode( PDO::FETCH_CLASS, 'Produto' );
         
