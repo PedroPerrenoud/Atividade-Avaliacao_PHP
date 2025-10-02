@@ -47,10 +47,12 @@
         return false;
       }
     }
+
     public function update(){}
     public function getById(){}
+    
     public function bringAll() : array {
-      $sql_bring = "SELEC * FROM vendas";
+      $sql_bring = "SELECT * FROM vendas";
 
       try{
         $stmt_bring = $this->db->prepare($sql_bring);

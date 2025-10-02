@@ -1,30 +1,34 @@
 <?php
 
-/* 
+    $url_api = 'http://localhost/prova/Atividade-Avaliacao_PHP/projeto_vendas/public/api.php?controller=produto&method=listar';
 
-require_once '../../model/Produto.php';
+    $listaProdutos = [];
 
-session_start();
+    try {
+        $json_data = file_get_contents($url_api);
 
-$listaProdutos = Produto::listar(); // >>> exemplo 
+        if ($json_data === FALSE) {
+            throw new Exception("Não foi possível acessar a API.");
+        }
 
-*/
+        $dados_api = json_decode($json_data);
+
+        if ($dados_api === NULL && json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Erro ao decodificar JSON: " . json_last_error_msg());
+        }
+
+        $listaProdutos = $dados_api;
+
+    } catch (Exception $e) {
+        error_log("Erro na API: " . $e->getMessage());
+        $listaProdutos = [];
+    }
+
+    echo "<script> console.log( ".$id." ) </script>";
 
 ?>
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Produtos</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-
-    <?php include '../template/header.php'; ?>
-
+<html>
     <main>
         <div class="divisao">
 
@@ -32,6 +36,7 @@ $listaProdutos = Produto::listar(); // >>> exemplo
             <h1>Realizar Compra:</h1>
             
                 <form class="formulario" action="" method="POST">
+
                     <input type="hidden" name="cadastrar_compra" value="1">
 
                     Selecione o Produto: 
@@ -48,6 +53,7 @@ $listaProdutos = Produto::listar(); // >>> exemplo
                     Total: <input type="number" step='0.01' name="total_compra"> <!-- atualizar automaticament o valor -->
 
                     <button class="btn_salvar" type="submit">Comprar</button>
+
                 </form>
 
         </div>
@@ -70,10 +76,10 @@ $listaProdutos = Produto::listar(); // >>> exemplo
                     <tbody>
                         <?php foreach ($listaProdutos as $produto): ?>
                             <tr>
-                                <td><?php echo $produto->getId(); ?></td>
-                                <td><?php echo $produto->getNome(); ?></td>
-                                <td>R$ <?php echo number_format($fun->getValor(), 2, ',', '.'); ?></td>
-                                <td><?php echo $produto->getEstoque(); ?></td>
+                                <td><?php echo $id; ?></td>
+                                <td><?php echo $name; ?></td>
+                                <td>R$ <?php echo number_format($value, 2, ',', '.'); ?></td>
+                                <td><?php echo $qtd; ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -87,8 +93,4 @@ $listaProdutos = Produto::listar(); // >>> exemplo
 
         </div>
     </main>
-
-    <?php include '../template/footer.php'; ?>
-    
-</body>
 </html>

@@ -4,6 +4,7 @@
   define( 'VIEW_PATH', "/Atividade-Avaliaca_PHP/projeto_vendas/app/view/");
   define( 'DATABASE_PATH', "/Atividade-Avaliaca_PHP/projeto_vendas/config/database.php");
   define( 'INDEX_PATH',  '/Atividade-Avaliaca_PHP/projeto_vendas/public/index.php');
+  define( 'API_PATH', '/Atividade-Avaliaca_PHP/projeto_vendas/public/api.php');
   
   define( 'PATH_CONFIG', "/Atividade-Avaliaca_PHP/projeto_vendas/config/path_config.php");
 

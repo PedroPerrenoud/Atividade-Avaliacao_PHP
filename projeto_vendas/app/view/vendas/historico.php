@@ -1,30 +1,33 @@
 <?php
 
-/* 
+    $url_api = 'http://localhost/prova/Atividade-Avaliacao_PHP/projeto_vendas/public/api.php?controller=venda&method=listar';
 
-require_once '../../model/Venda.php';
+    $listaHistorico = [];
 
-session_start();
+    try {
+        $json_data = file_get_contents($url_api);
 
-$listaHistorico = Venda::listar(); // >>> exemplo 
+        if ($json_data === FALSE) {
+            throw new Exception("Não foi possível acessar a API.");
+        }
 
-*/
+        $dados_api = json_decode($json_data);
 
-?>
+        if ($dados_api === NULL && json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception("Erro ao decodificar JSON: " . json_last_error_msg());
+        }
+
+        $listaHistorico = $dados_api;
+
+    } catch (Exception $e) {
+        error_log("Erro na API: " . $e->getMessage());
+        $listaHistorico = [];
+    }
+    
+?>    
 
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Histórico</title>
-    <link rel="stylesheet" href="../css/style.css">
-</head>
-<body>
-
-    <?php include '../template/header.php'; ?>
-
+<html>
     <main>
         <div class="divisao">
 
@@ -46,11 +49,11 @@ $listaHistorico = Venda::listar(); // >>> exemplo
                     <tbody>
                         <?php foreach ($historico as $venda): ?>
                             <tr>
-                                <td><?php echo $produto->getId(); ?></td>
-                                <td><?php echo $produto->getNomeProduto(); ?></td>
-                                <td><?php echo $produto->getQuantidade(); ?></td>
-                                <td>R$ <?php echo number_format($fun->getTotal(), 2, ',', '.'); ?></td>
-                                <td><?php echo $produto->getData(); ?></td>
+                                <td><?php echo $venda->getId(); ?></td>
+                                <td><?php echo $venda->getProdId(); ?></td>
+                                <td><?php echo $venda->getQtd(); ?></td>
+                                <td>R$ <?php echo number_format($venda->getValue(), 2, ',', '.'); ?></td>
+                                <td><?php echo $venda->getDate(); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
@@ -64,8 +67,4 @@ $listaHistorico = Venda::listar(); // >>> exemplo
 
         </div>
     </main>
-
-    <?php include '../template/footer.php'; ?>
-    
-</body>
-</html>
+</html>  
