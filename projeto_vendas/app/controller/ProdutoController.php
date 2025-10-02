@@ -15,19 +15,17 @@
       $produto->create();
     }
 
-    public function editProdutct(){
-
-    }
+    // public function editProdutct(){}
 
     public static function listar(){
       $produtoModel = new Produto();
       $produtos = $produtoModel->bringAll();
 
-      render($produtos);
+      ProdutoController::render($produtos);
     }
 
-    public function render( array $data = []){
-      extract($data);
+    public static function render( array $data = []){
+      extract($data); // Extrai os dados do array e transforma as chaves em variáveis ['nome' => 'Pedro' ==> $nome = 'Pedro'];
       require_once INDEX_PATH;
     }
   }

@@ -11,6 +11,9 @@
 
     public function __construct(){
       $this->db = Database::getConection();
+      if ($this->db === null) {
+        throw new Exception("Não foi possível conectar ao banco de dados");
+      }
     }
 
     // GETTERS
@@ -27,7 +30,22 @@
     // METHODS
     public function create(){}
     public function update(){}
-    public function getById(){}
+    
+    public function getById($id) : ? Produto {
+      $sql_byId = "SELECT * FROM produtos WHERE prod_id = :id";
+
+      try{
+        $stmt_byId = $this->db->prepare($sql_byId);
+        $stmt_byId->bindValue(':prod_id', $id);
+        $stmt_byId->setFetchMode(PDO::FETCH_CLASS, 'Produto');
+        
+        $produto = $stmt_byId->fetch();
+        return($produto !== false ) ? $produto : null;
+      }
+      catch(PDOException $e) {
+        return null;
+      }
+    }
     
     public function bringAll() : array {
       $db = Database::getConection();
@@ -47,15 +65,21 @@
     }
 
     // METHODS - ACTIVITE
-    public function totalCalculate(){}
+    
 
-    public function remove_qtd($qtd){
+    public function remove_qtd($qtd) : bool {
+      if( $qtd > $this->qtd){
+        return false;
+        exit();
+      }
+
       $this->qtd -= $qtd;
-      $sql_remove = ""; // QUERY SQL PARA ATUALIZAR
+      $sql_remove = "UPDATE produto SET prod_quantidade = :quantidade WHERE prod_id = :id"; // QUERY SQL PARA ATUALIZAR
 
       $stmt_remove = $this->db->prepare($sql_remove);
-      $stmt_remove->bindValue(':qtd', $this->qtd);
-
+      $stmt_remove->bindValue( ':id', $this->id );
+      $stmt_remove->bindValue(':quantidade', $this->qtd);
+      
       return $stmt_remove->execute();
     }
   }
