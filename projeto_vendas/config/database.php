@@ -4,7 +4,7 @@
     private static $host = 'localhost';
     private static $database = 'loja_virtual';
     private static $user = 'root';
-    private static $passwrod = 'aluno';
+    private static $passwrod = '';
 
     public static function getConection(){
       try{
@@ -14,7 +14,7 @@
         return $conect;
 
       } catch(PDOException $e){
-        echo "Erro ao conectar ao banco";
+        return null;
       }
     }
   }

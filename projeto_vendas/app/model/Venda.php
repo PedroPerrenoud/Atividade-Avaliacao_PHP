@@ -1,29 +1,31 @@
 <?php
+
+  require_once DATABASE_PATH;
+
   class Venda{
     // PARAMS
     private $id;
     private $prodId;
+    private $prodName;
     private $qtd;
     private $value;
     private $date;
     private $db;
 
     public function __construct(){
-      $database = new Database();
-      $this->db = $database->getConection();
-      if ($this->db === null) {
-        throw new Exception("Não foi possível conectar ao banco de dados");
-      }
+      $this->db = Database::getConection();
     }
 
     // GETTERS
     public function getId(){ return $this->id; }
     public function getProdId(){ return $this->prodId; }
+    public function getProdName(){ return $this->prodName; }
     public function getQtd(){ return $this->qtd; }
     public function getValue(){ return $this->value; }
     public function getDate(){ return $this->date; }
 
     public function setProdId( $prodId ){ $this->prodId = $prodId; }
+    public function setProdName( $prodName ){ $this->prodName = $prodName; }
     public function setQtd( $qtd ){ $this->qtd = $qtd; }
     public function setValue( $value ){ $this->value = $value; }
     public function setDate( $date ){ $this->date = $date; }
@@ -52,14 +54,24 @@
     public function getById(){}
     
     public function bringAll() : array {
-      $sql_bring = "SELECT * FROM vendas";
+
+      $sql_bring = "
+        SELECT 
+            v.venda_id AS id, 
+            v.prod_id AS prodId, 
+            v.quantidade AS qtd, 
+            v.venda_valor AS value, 
+            v.venda_data AS date,
+            p.prod_nome AS prodName
+        FROM vendas v
+        INNER JOIN produtos p ON v.prod_id = p.prod_id
+    ";
 
       try{
         $stmt_bring = $this->db->prepare($sql_bring);
         $stmt_bring->execute();
-        $stmt_bring->setFetchMode( PDO::FETCH_CLASS, 'Venda' );
         
-        $vendas = $stmt_bring->fetchAll();
+        $vendas = $stmt_bring->fetchAll(PDO::FETCH_ASSOC);
         return $vendas;
 
       }catch(PDOException $e){

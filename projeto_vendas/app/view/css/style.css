@@ -2,6 +2,7 @@
 
 * {
     font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
 }
 
 body {
@@ -24,6 +25,7 @@ input, select {
     border: none;
     border-radius: 5px;
     padding: 0.3rem;
+    margin-bottom: 1rem;
 }
 
 input:focus, 
@@ -38,10 +40,16 @@ select:focus {
     transition: background-color 0.3s;
     border: none;
     color: white;
-    padding: 0.5rem;
-    border-radius: 5px;
+
+    padding: 0.7rem;
+    border-radius: 10px;
     margin-top: 0.8rem;
+
     background-color: green;
+    width: 30%;
+
+    display: flex;
+    justify-content: center;
 }
 
 .btn_salvar:hover {
@@ -71,6 +79,7 @@ footer {
     justify-content: center;
     color: white;
     padding: 0.6rem;
+    margin-top: 3rem;
 }
 
 /* ============================= index.php ============================*/
@@ -96,31 +105,39 @@ main {
 
 /* ============================= configuração de formulário ============================*/
 
-.formulario {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 95%;
-}
-
 .cadastro{
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+
     background-color: rgb(0, 63, 78);
     padding: 3rem;
     border-radius: 10px;
     border: 1px solid gray;
     box-shadow: 5px 5px 5px 5px rgb(172, 172, 172);
+    
+    width: 30%;
+    margin-top: 4rem;
 }
 
-.tabela {
-    margin-top: 1.5rem;
+.cadastro h1,
+.tabela h1 {
+    margin-bottom: 2rem;
+    font-size: 2rem;
 }
 
-.cadastro {
-    margin-top: 3rem;
+.formulario {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    text-align: start;
+}
+
+.botao {
+    display: flex;
+    justify-content: center;
 }
 
 
@@ -131,6 +148,7 @@ main {
     align-items: center;
     flex-direction: column;
     width: 50%;
+    margin-top: 1.5rem;
 }
 
 table {
@@ -143,6 +161,7 @@ table {
 
 thead {
     background-color: rgb(0, 63, 78);
+    color: white;
 }
 
 tbody tr:nth-child(even) {

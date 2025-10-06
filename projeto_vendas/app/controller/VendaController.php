@@ -26,16 +26,21 @@
     }
 
     public static function listar(){
+
       $vendaModel = new Venda();
       $vendas = $vendaModel->bringAll();
       $vendaController = new VendaController();
 
-      $vendaController->render($vendas);
+      //render('produtos', ['listaProdutos' => $produtos]);
+      $vendaController->render('vendas', ['listaHistorico' => $vendas]);
+
     }
 
-    public static function render($data){
+    public function render(string $viewName, array $data = []){
+
       extract($data);
-      require_once INDEX_PATH;
+      
+      require_once PUBLIC_PATH . $viewName . '.php';
     }
   }
 ?>

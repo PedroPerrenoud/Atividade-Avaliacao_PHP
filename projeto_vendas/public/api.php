@@ -1,4 +1,7 @@
 <?php
+
+  require_once __DIR__ . '/../config/path_config.php';
+
   //INCLUDE CONTROLADORES
   include_once CONTROLLER_PATH.'ProdutoController.php';
   include_once CONTROLLER_PATH.'VendaController.php';
@@ -11,9 +14,4 @@
     $controller_obj = new $controller_class();
     $controller_obj->$method();
   }
-
-
-  
-
-  
 ?>

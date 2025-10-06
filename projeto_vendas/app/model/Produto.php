@@ -63,7 +63,14 @@
     }
     
     public function bringAll() : array {
-      $sql_bring = "SELECT * FROM produtos";
+      $sql_bring = "
+          SELECT 
+              prod_id AS id, 
+              prod_nome AS name, 
+              prod_valor AS value, 
+              prod_estoque AS qtd 
+            FROM produtos
+        ";
 
       try{
         $stmt_bring = $this->db->prepare($sql_bring);

@@ -1,33 +1,3 @@
-<?php
-
-    $url_api = 'http://localhost/prova/Atividade-Avaliacao_PHP/projeto_vendas/public/api.php?controller=produto&method=listar';
-
-    $listaProdutos = [];
-
-    try {
-        $json_data = file_get_contents($url_api);
-
-        if ($json_data === FALSE) {
-            throw new Exception("Não foi possível acessar a API.");
-        }
-
-        $dados_api = json_decode($json_data);
-
-        if ($dados_api === NULL && json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception("Erro ao decodificar JSON: " . json_last_error_msg());
-        }
-
-        $listaProdutos = $dados_api;
-
-    } catch (Exception $e) {
-        error_log("Erro na API: " . $e->getMessage());
-        $listaProdutos = [];
-    }
-
-    echo "<script> console.log( ".$id." ) </script>";
-
-?>
-
 <html>
     <main>
         <div class="divisao">
@@ -42,17 +12,20 @@
                     Selecione o Produto: 
                     <select name="id_produto">
                         <?php foreach ($listaProdutos as $produto): ?>
-                            <option value="<?php echo $produto->getId(); ?>">
-                                <?php echo htmlspecialchars($produto->getNome()); ?>
+                            <option value="<?php echo htmlspecialchars($produto->getId()); ?>">
+                                <?php echo htmlspecialchars($produto->getName()); ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                     
-                    Quantidade: <input type="number" name="qtd_produto">
+                    Quantidade de Produtos: <input type="number" name="qtd_produto">
 
-                    Total: <input type="number" step='0.01' name="total_compra"> <!-- atualizar automaticament o valor -->
+                    Total(R$): <input type="number" step='0.01' name="total_compra"> <!-- atualizar automaticament o valor -->
 
-                    <button class="btn_salvar" type="submit">Comprar</button>
+                    <div class="botao">
+                        <button class="btn_salvar" type="submit">Comprar</button>
+                    </div>
+                    
 
                 </form>
 
@@ -76,10 +49,10 @@
                     <tbody>
                         <?php foreach ($listaProdutos as $produto): ?>
                             <tr>
-                                <td><?php echo $id; ?></td>
-                                <td><?php echo $name; ?></td>
-                                <td>R$ <?php echo number_format($value, 2, ',', '.'); ?></td>
-                                <td><?php echo $qtd; ?></td>
+                                <td><?php echo htmlspecialchars($produto->getId()); ?></td>
+                                <td><?php echo htmlspecialchars($produto->getName()); ?></td>
+                                <td>R$ <?php echo number_format($produto->getValue(), 2, ',', '.'); ?></td>
+                                <td><?php echo htmlspecialchars($produto->getQtd()); ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>
