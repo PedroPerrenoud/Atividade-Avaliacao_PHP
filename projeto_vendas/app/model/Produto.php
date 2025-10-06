@@ -87,24 +87,5 @@
         return [];
       }
     }
-
-    // METHODS - ACTIVITE
-    
-
-    public function remove_qtd($qtd) : bool {
-      if( $qtd > $this->qtd){
-        return false;
-        exit();
-      }
-
-      $this->qtd -= $qtd;
-      $sql_remove = "UPDATE produto SET prod_quantidade = :quantidade WHERE prod_id = :id"; // QUERY SQL PARA ATUALIZAR
-
-      $stmt_remove = $this->db->prepare($sql_remove);
-      $stmt_remove->bindValue( ':id', $this->id );
-      $stmt_remove->bindValue(':quantidade', $this->qtd);
-      
-      return $stmt_remove->execute();
-    }
   }
 ?>

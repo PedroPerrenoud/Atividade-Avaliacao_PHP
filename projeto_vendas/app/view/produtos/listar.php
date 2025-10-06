@@ -7,10 +7,10 @@
             
                 <form class="formulario" action="" method="POST">
 
-                    <input type="hidden" name="cadastrar_compra" value="1">
+                    <input type="hidden" name="nova_venda" value="1">
 
                     Selecione o Produto: 
-                    <select name="id_produto">
+                    <select name="prod_id">
                         <?php foreach ($listaProdutos as $produto): ?>
                             <option value="<?php echo htmlspecialchars($produto->getId()); ?>">
                                 <?php echo htmlspecialchars($produto->getName()); ?>
@@ -18,9 +18,9 @@
                         <?php endforeach; ?>
                     </select>
                     
-                    Quantidade de Produtos: <input type="number" name="qtd_produto">
+                    Quantidade de Produtos: <input type="number" name="qtd">
 
-                    Total(R$): <input type="number" step='0.01' name="total_compra"> <!-- atualizar automaticament o valor -->
+                    Data da Venda: <input type="date" name="date">
 
                     <div class="botao">
                         <button class="btn_salvar" type="submit">Comprar</button>

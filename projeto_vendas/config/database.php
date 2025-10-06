@@ -4,7 +4,7 @@
     private static $host = 'localhost';
     private static $database = 'loja_virtual';
     private static $user = 'root';
-    private static $passwrod = '';
+    private static $passwrod = 'aluno';
 
     public static function getConection(){
       try{

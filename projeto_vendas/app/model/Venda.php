@@ -1,7 +1,6 @@
 <?php
   require_once DATABASE_PATH;
 
-
   require_once DATABASE_PATH;
 
   class Venda{
@@ -88,8 +87,6 @@
         return false;
       }
     }
-
-    public function atualizar(){}
     
     public function bringAll() : array {
 

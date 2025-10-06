@@ -14,7 +14,7 @@
   define( 'INDEX_PATH', PUBLIC_PATH . 'index.php');
 
   // Caminho base url
-  define('URL_BASE', '/prova/Atividade-Avaliacao_PHP/projeto_vendas/');
+  define('URL_BASE', '/Atividade-Avaliacao_PHP/projeto_vendas/');
 
   define('API_PATH', URL_BASE . 'public/api.php');
   define('CSS_URL', URL_BASE . 'app/view/css/');
