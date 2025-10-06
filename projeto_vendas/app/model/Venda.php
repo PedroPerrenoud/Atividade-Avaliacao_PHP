@@ -15,15 +15,6 @@
     private $db;
 
     public function __construct(){
-      $database = new Database();
-      $this->db = $database->getConection();
-      if ($this->db === null) {
-        throw new Exception("Não foi possível conectar ao banco de dados");
-      }
-    }
-    private $db;
-
-    public function __construct(){
       $this->db = Database::getConection();
     }
 
