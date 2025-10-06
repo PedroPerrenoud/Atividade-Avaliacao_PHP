@@ -1,7 +1,7 @@
 <header>
     <nav>
-        <a href="../../../public/index.php">Inicio</a>
-        <a href="../app/view/produtos/listar.php">Produtos</a>
-        <a href="../app/view/vendas/historico.php">Vendas</a>
+        <a href="./index.php">Inicio</a>
+        <a href="<?php echo API_PATH.'?controller=produto&method=listar'; ?>">Produtos</a>
+        <a href="<?php echo API_PATH.'?controller=venda&method=listar'; ?>">Vendas</a> 
     </nav>
 </header>

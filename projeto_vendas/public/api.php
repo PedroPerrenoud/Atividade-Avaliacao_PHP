@@ -1,9 +1,12 @@
 <?php
+
+  require_once __DIR__ . '/../config/path_config.php';
+
   //INCLUDE CONTROLADORES
   include_once CONTROLLER_PATH.'ProdutoController.php';
   include_once CONTROLLER_PATH.'VendaController.php';
 
-  $controller = $_GET['controller'] ?? 'Produto';
+  $controller = $_GET['controller'] ?? 'produto';
   $method = $_GET['method'] ?? 'listar'; 
   $controller_class = ucfirst($controller).'Controller';
 
@@ -11,7 +14,4 @@
     $controller_obj = new $controller_class();
     $controller_obj->$method();
   }
-  
-
-  
 ?>

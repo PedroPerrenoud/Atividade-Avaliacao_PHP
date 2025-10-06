@@ -1,35 +1,46 @@
-<?php
-  require_once MODEL_PATH.'Venda.php';
-  require_once MODEL_PATH.'Produto.php';
+<?php 
+  include_once MODEL_PATH.'Produto.php';
+  include_once MODEL_PATH.'Venda.php';
 
-  class VendaController {
-    public function newVenda() : bool {
-      if( isset($_POST['prod_id']) ){
-        $prodId = $_POST['prod_id'];
-        $qtd = $_POST['quantidade'];
-        $date = $_POST['venda_data'];
+  class VendaController{
+    public function newVenda(){
+      $prod_id = $_POST['prod_id'];
+      $qtd = $_POST['qtd'];
+      $date = $_POST['date'];
 
-        $venda = new Venda();
-        $venda->setDate($date);
-        $venda->setQtd($qtd);
+      $venda = new Venda();
+      $modelProduto = new Produto();
 
-        $produtoModel = new Produto();
-        $produto = $produtoModel->getById($prodId);
-        $venda->setProdId( $produto->getId() );
-        
-        if( $produto->remove_qtd($qtd) ){
-          $venda->setValue($venda->totalCalculate( $qtd, $produto->getValue()) );
-          return $venda->register();
+      $venda->setQtd($qtd);
+      $venda->setProdId($prod_id);
+      $venda->setDate($date);
+      $produto = $modelProduto->getById($prod_id);
+      
+      if ($produto->removeQtd($qtd) ){
+        $venda->setValue( $venda->totalValue($qtd, $produto->getValue() ) );
+        if( $venda->register() ){
+          header("Location: ".INDEX_PATH."?status=vendaSucesso");
         }
-
-        //Tratar erro em caso de quantidade insuficiente de produto
-        return false;
-
       }
 
-      //Tratar erro caso não haja um prod_id
-      return false;
+    }
+
+    public static function listar(){
+
+      $vendaModel = new Venda();
+      $vendas = $vendaModel->bringAll();
+      $vendaController = new VendaController();
+
+      //render('produtos', ['listaProdutos' => $produtos]);
+      $vendaController->render('vendas', ['listaHistorico' => $vendas]);
+
+    }
+
+    public function render(string $viewName, array $data = []){
+
+      extract($data);
       
+      require_once PUBLIC_PATH . $viewName . '.php';
     }
   }
 ?>

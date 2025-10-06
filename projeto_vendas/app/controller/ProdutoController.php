@@ -1,32 +1,41 @@
 <?php
-  require_once MODEL_PATH.'Produto.php';
+require_once MODEL_PATH . 'Produto.php';
 
-  class ProdutoController{
-    public function newProduct(){
-      $name = $_POST['nome'];
-      $value = $_POST['valor'];
-      $qtd = $_POST['quantidade'];
+class ProdutoController
+{
+  public function newProduct()
+  {
+    $name = $_POST['nome'];
+    $value = $_POST['valor'];
+    $qtd = $_POST['quantidade'];
 
-      $produto = new Produto();
-      $produto->setName($name);
-      $produto->setName($value);
-      $produto->setName($qtd);
+    $produto = new Produto();
+    $produto->setName($name);
+    $produto->setValue($value);
+    $produto->setQtd($qtd);
 
-      $produto->create();
-    }
-
-    // public function editProdutct(){}
-
-    public static function listar(){
-      $produtoModel = new Produto();
-      $produtos = $produtoModel->bringAll();
-
-      ProdutoController::render($produtos);
-    }
-
-    public static function render( array $data = []){
-      extract($data); // Extrai os dados do array e transforma as chaves em variáveis ['nome' => 'Pedro' ==> $nome = 'Pedro'];
-      require_once INDEX_PATH;
-    }
+    $produto->create();
   }
+
+  public function editProdutct()
+  {
+
+  }
+
+  public static function listar()
+  {
+    $produtoModel = new Produto();
+    $produtos = $produtoModel->bringAll();
+    $produtoController = new ProdutoController();
+
+    $produtoController->render('produtos', ['listaProdutos' => $produtos]);
+  }
+
+  public function render(string $viewName, array $data = [])
+  {
+    extract($data);
+
+    require_once PUBLIC_PATH . $viewName . '.php';
+  }
+}
 ?>

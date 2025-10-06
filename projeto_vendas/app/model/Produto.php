@@ -31,28 +31,52 @@
     public function create(){}
     public function update(){}
     
-    public function getById($id) : ? Produto {
-      $sql_byId = "SELECT * FROM produtos WHERE prod_id = :id";
-
-      try{
-        $stmt_byId = $this->db->prepare($sql_byId);
-        $stmt_byId->bindValue(':prod_id', $id);
-        $stmt_byId->setFetchMode(PDO::FETCH_CLASS, 'Produto');
-        
-        $produto = $stmt_byId->fetch();
-        return($produto !== false ) ? $produto : null;
+    public function removeQTD($qtd) : bool {
+      if( $qtd > $this->qtd){
+        header('Location: '.INDEX_PATH.'?status=error');
+        exit();
       }
-      catch(PDOException $e) {
+      $this->qtd -= $qtd;
+      $sql_remove = "UPDATE produtos SET prod_qtd = :qtd WHERE id = :id ";
+
+      $stmt_remove = $this->db->prepare($sql_remove);
+      $stmt_remove->bindValue(':id', $this->id);
+      $stmt_remove->bindValue(':qtd', $this->qtd);
+      
+      return $stmt_remove->execute();
+    }
+
+    public function getById($id){
+      $sql_searchId = "SELECT * FROM produtos WHERE prod_id = :id";
+      try{
+        $stmt_searchId = $this->db->prepare($sql_searchId);
+        $stmt_searchId->bindValue(':id', $id );
+        $stmt_searchId->execute();
+
+        $stmt_searchId->setFetchMode(PDO::FETCH_CLASS, 'Produto'); 
+
+        $produto = $stmt_searchId->fetch();
+
+        return ($produto !== false) ? $produto : null;
+      
+      }catch(PDOException $e){
         return null;
       }
+
     }
     
     public function bringAll() : array {
-      $db = Database::getConection();
-      $sql_bring = "SELEC * FROM produtos";
+      $sql_bring = "
+          SELECT 
+              prod_id AS id, 
+              prod_nome AS name, 
+              prod_valor AS value, 
+              prod_estoque AS qtd 
+            FROM produtos
+        ";
 
       try{
-        $stmt_bring = $db->prepare($sql_bring);
+        $stmt_bring = $this->db->prepare($sql_bring);
         $stmt_bring->execute();
         $stmt_bring->setFetchMode( PDO::FETCH_CLASS, 'Produto' );
         
