@@ -3,11 +3,12 @@
 
   class Produto{
     // PARAMS
-    private $id;
-    private $name;
-    private $value;
+    private $prod_id;
+    private $prod_nome;
+    private $prod_valor;
+    private $prod_estoque; // Quantidade;
     private $db;
-    private $qtd; // Quantidade;
+    
 
     public function __construct(){
       $this->db = Database::getConection();
@@ -17,31 +18,31 @@
     }
 
     // GETTERS
-    public function getId(){ return $this->id; }
-    public function getName(){ return $this->name; }
-    public function getValue(){ return $this->value; }
-    public function getQtd(){ return $this->qtd; }
+    public function getId(){ return $this->prod_id; }
+    public function getName(){ return $this->prod_nome; }
+    public function getValue(){ return $this->prod_valor; }
+    public function getQtd(){ return $this->prod_estoque; }
 
     // SETTERS
-    public function setName( $name ){ $this->name = $name; }
-    public function setValue( $value ){ $this->value = $value; }
-    public function setQtd( $qtd ){ $this->qtd = $qtd; }
+    public function setName( $name ){ $this->prod_nome = $name; }
+    public function setValue( $value ){ $this->prod_valor = $value; }
+    public function setQtd( $qtd ){ $this->prod_estoque = $qtd; }
     
     // METHODS
     public function create(){}
     public function update(){}
     
     public function removeQTD($qtd) : bool {
-      if( $qtd > $this->qtd){
+      if( $qtd > $this->prod_estoque){
         header('Location: '.INDEX_PATH.'?status=error');
         exit();
       }
-      $this->qtd -= $qtd;
-      $sql_remove = "UPDATE produtos SET prod_qtd = :qtd WHERE id = :id ";
+      $this->prod_estoque -= $qtd;
+      $sql_remove = "UPDATE produtos SET prod_estoque = :qtd WHERE prod_id = :id ";
 
       $stmt_remove = $this->db->prepare($sql_remove);
-      $stmt_remove->bindValue(':id', $this->id);
-      $stmt_remove->bindValue(':qtd', $this->qtd);
+      $stmt_remove->bindValue(':id', $this->prod_id);
+      $stmt_remove->bindValue(':qtd', $this->prod_estoque);
       
       return $stmt_remove->execute();
     }
@@ -66,14 +67,7 @@
     }
     
     public function bringAll() : array {
-      $sql_bring = "
-          SELECT 
-              prod_id AS id, 
-              prod_nome AS name, 
-              prod_valor AS value, 
-              prod_estoque AS qtd 
-            FROM produtos
-        ";
+      $sql_bring = "SELECT * FROM produtos";
 
       try{
         $stmt_bring = $this->db->prepare($sql_bring);

@@ -5,7 +5,7 @@
         <div class="cadastro">
             <h1>Realizar Compra:</h1>
             
-                <form class="formulario" action="" method="POST">
+                <form class="formulario" action="<?= API_PATH.'?controller=venda&method=newVenda'?>" method="POST">
 
                     <input type="hidden" name="nova_venda" value="1">
 
